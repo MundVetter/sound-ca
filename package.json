@@ -1,0 +1,14 @@
+{
+  "name": "sound_ca",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mund",
+  "license": "ISC",
+  "dependencies": {
+    "eca": "^1.0.9"
+  }
+}

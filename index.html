@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>From noise to Art</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdn.webrtc-experiment.com/MediaStreamRecorder.js"> </script>
+    <style>
+      .off {
+        background-color: black;
+      }
+      .on {
+        background-color: white;
+      }
+      .cell {
+        /*margin: 2px;*/
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+      }
+      .lattice {
+        white-space: nowrap;
+        height: 10px;
+      }
+      body {
+        background-color: black;
+        color: white;
+      }
+      .container {
+        width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>From noise to Art</h1>
+    <button>reset</button>
+    <input type="number" name="rule" value="30" id="rule">
+    <input type="number" name="width" value="81" id="width">
+    <input type="text" name="times" value="40" id="times">
+    <div class="container"></div>
+    <script src="scripts/bundle.js" charset="utf-8"></script>
+  </body>
+</html>
