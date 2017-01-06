@@ -1,96 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-function formatBlob(blob, width, callback) {
-  var reader = new window.FileReader();
-  reader.readAsDataURL(blob);
-  reader.onloadend = function() {
-    base64data = reader.result;
-    let binary = ''
-    for (var i = 3000; i <3000 + width; i++) {
-      if (base64data.charCodeAt(i) % 2 == 0) {
-        binary += '1';
-      } else {
-        binary += '0';
-      }
-    }
-    callback(binary);
-  }
-}
-module.exports = formatBlob
-
-},{}],2:[function(require,module,exports){
-function getAudio(callback) {
-  var mediaConstraints = {
-    audio: true
-  };
-  navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
-
-  function onMediaSuccess(stream) {
-      var mediaRecorder = new MediaStreamRecorder(stream);
-      mediaRecorder.mimeType = 'audio/wav'; // check this line for audio/wav
-      mediaRecorder.ondataavailable = function (blob) {
-        callback(blob);
-      };
-      mediaRecorder.start(3000);
-  }
-
-  function onMediaError(e) {
-      console.error('media error', e);
-  }
-}
-
-module.exports = getAudio
-
-},{}],3:[function(require,module,exports){
-const eca = require('eca');
-const getAudio = require('./getAudio.js')
-const formatBlob = require('./formatBlob.js')
-let myEca = new eca(30, {width: 81, seed: '1'});
-let audio;
-genEca(40)
-getAudio((data) => {
-  audio = data;
-})
-setInterval(function () {
-  reset()
-}, 5000);
-
-function genEca(times, c = () => {}) {
-  for (var i = 0; i < times; i++) {
-    myEca.genLattice()
-  }
-  c()
-  for (var i = 0; i < times; i++) {
-    addLattice(myEca.lattices[i])
-  }
-}
-
-function addLattice(lattice) {
-  $('.container').append('<div class="lattice"></div>')
-  for (const c of lattice) {
-    let value = (c == '0' ? 'off' : 'on');
-    $('.lattice').last().append(`<div class="cell ${value}"></div>`)
-  }
-}
-
-$('button').on('click', reset)
-
-function reset() {
-  const width = parseInt($('#width').val())
-  const rule = parseInt($('#rule').val())
-  const times = parseInt($('#times').val())
-  formatBlob(audio, width, (data) => {
-    myEca = new eca(rule, {
-      width: width,
-      seed: data
-    })
-    genEca(times, () => {
-      $('.lattice').remove()
-    });
-  });
-}
-//$('.cell').text(' n').removeClass('')
-
-},{"./formatBlob.js":1,"./getAudio.js":2,"eca":4}],4:[function(require,module,exports){
 /*
   Made by Mund & Mart for PWS to show a possible js implementation of
   ellementary cellular automata
@@ -179,7 +87,7 @@ class eca {
 
 module.exports = eca
 
-},{"left-pad":5}],5:[function(require,module,exports){
+},{"left-pad":2}],2:[function(require,module,exports){
 /* This program is free software. It comes without any warranty, to
      * the extent permitted by applicable law. You can redistribute it
      * and/or modify it under the terms of the Do What The Fuck You Want
@@ -233,4 +141,91 @@ function leftPad (str, len, ch) {
   return pad + str;
 }
 
-},{}]},{},[3]);
+},{}],3:[function(require,module,exports){
+function formatBlob(blob, width, callback) {
+  var reader = new window.FileReader();
+  reader.readAsDataURL(blob);
+  reader.onloadend = function() {
+    base64data = reader.result;
+    let binary = ''
+    for (let i = 3000; i <3000 + width; i++) {
+      if (base64data.charCodeAt(i) % 2 == 0) {
+        binary += '1';
+      } else {
+        binary += '0';
+      }
+    }
+    console.log(binary);
+    callback(binary);
+  }
+}
+module.exports = formatBlob
+
+},{}],4:[function(require,module,exports){
+function getAudio(callback) {
+  var mediaConstraints = {
+    audio: true
+  };
+  navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
+
+  function onMediaSuccess(stream) {
+      var mediaRecorder = new MediaStreamRecorder(stream);
+      mediaRecorder.mimeType = 'audio/wav'; // check this line for audio/wav
+      mediaRecorder.ondataavailable = function (blob) {
+        callback(blob);
+      };
+      mediaRecorder.start(3000);
+  }
+
+  function onMediaError(e) {
+      console.error('media error', e);
+  }
+}
+
+module.exports = getAudio
+
+},{}],5:[function(require,module,exports){
+const eca = require('eca');
+const getAudio = require('./getAudio.js')
+const formatBlob = require('./formatBlob.js')
+let myEca = new eca(30, {width: 81, seed: '1'});
+let audio;
+genEca(40)
+getAudio((data) => {
+  audio = data;
+  reset();
+})
+$('button').on('click', reset)
+
+function genEca(times, c = () => {}) {
+  for (var i = 0; i < times; i++) {
+    myEca.genLattice()
+  }
+  c()
+  for (var i = 0; i < times; i++) {
+    addLattice(myEca.lattices[i])
+  }
+}
+function addLattice(lattice) {
+  $('.container').append('<div class="lattice"></div>')
+  for (const c of lattice) {
+    let value = (c == '0' ? 'off' : 'on');
+    $('.lattice').last().append(`<div class="cell ${value}"></div>`)
+  }
+}
+function reset() {
+  const width = parseInt($('#width').val())
+  const rule = parseInt($('#rule').val())
+  const times = parseInt($('#times').val())
+  formatBlob(audio, width, (data) => {
+    myEca = new eca(rule, {
+      width: width,
+      seed: data
+    })
+    genEca(times, () => {
+      $('.lattice').remove()
+    });
+  });
+}
+
+},{"./formatBlob.js":3,"./getAudio.js":4,"eca":1}]},{},[5]);

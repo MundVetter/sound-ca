@@ -6,10 +6,9 @@ let audio;
 genEca(40)
 getAudio((data) => {
   audio = data;
+  reset();
 })
-setInterval(function () {
-  reset()
-}, 5000);
+$('button').on('click', reset)
 
 function genEca(times, c = () => {}) {
   for (var i = 0; i < times; i++) {
@@ -20,7 +19,6 @@ function genEca(times, c = () => {}) {
     addLattice(myEca.lattices[i])
   }
 }
-
 function addLattice(lattice) {
   $('.container').append('<div class="lattice"></div>')
   for (const c of lattice) {
@@ -28,9 +26,6 @@ function addLattice(lattice) {
     $('.lattice').last().append(`<div class="cell ${value}"></div>`)
   }
 }
-
-$('button').on('click', reset)
-
 function reset() {
   const width = parseInt($('#width').val())
   const rule = parseInt($('#rule').val())
@@ -45,4 +40,3 @@ function reset() {
     });
   });
 }
-//$('.cell').text(' n').removeClass('')
