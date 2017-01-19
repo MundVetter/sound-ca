@@ -1,5 +1,5 @@
 function formatBlob(blob, width, callback) {
-  var reader = new window.FileReader()
+  let reader = new window.FileReader()
   reader.readAsDataURL(blob)
   reader.onloadend = function() {
     base64data = reader.result

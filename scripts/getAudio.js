@@ -1,14 +1,13 @@
 const MediaStreamRecorder = require('msr')
 
-//dont use the first recording
+//don't use the first recording
 let first = true
 
 function getAudio(update) {
-  var mediaConstraints = {
+  let mediaConstraints = {
     audio: true
   }
   navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError)
-
   function onMediaSuccess(stream) {
       const mediaRecorder = new MediaStreamRecorder(stream)
       mediaRecorder.mimeType = 'audio/wav'
@@ -21,7 +20,6 @@ function getAudio(update) {
       }
       mediaRecorder.start(3000)
   }
-
   function onMediaError(e) {
       console.error('media error', e)
   }
