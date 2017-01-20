@@ -4,10 +4,7 @@ const MediaStreamRecorder = require('msr')
 let first = true
 
 function getAudio(update) {
-  let mediaConstraints = {
-    audio: true
-  }
-  navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError)
+  navigator.getUserMedia({audio: true}, onMediaSuccess, onMediaError)
   function onMediaSuccess(stream) {
       const mediaRecorder = new MediaStreamRecorder(stream)
       mediaRecorder.mimeType = 'audio/wav'
