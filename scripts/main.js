@@ -12,7 +12,7 @@ getAudio((data) => {
   reset()
 })
 $('button').on('click', reset)
-
+//generate an eca and add it to the dom
 function genEca(times, callback = () => {}) {
   for (let i = 0; i < times; i++) {
     myEca.genLattice()
@@ -22,6 +22,7 @@ function genEca(times, callback = () => {}) {
     addLattice(myEca.lattices[i])
   }
 }
+//add a lattice to the dom
 function addLattice(lattice) {
   $('.container').append('<div class="lattice"></div>')
   for (const cell of lattice) {
@@ -29,6 +30,7 @@ function addLattice(lattice) {
     $('.lattice').last().append(`<div class="cell ${value}"></div>`)
   }
 }
+//remove current eca from the dom and add a new one to the dom
 function reset() {
   const width = parseInt($('#width').val())
   const rule = parseInt($('#rule').val())
