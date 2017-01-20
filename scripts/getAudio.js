@@ -21,5 +21,4 @@ function getAudio(update) {
       console.error('media error', e)
   }
 }
-
 module.exports = getAudio
