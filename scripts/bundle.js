@@ -12613,11 +12613,6 @@ if (typeof define === 'function' && define.amd) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],5:[function(require,module,exports){
-const test = {
-  off: 0,
-  on: 0
-}
-
 function formatBlob(blob, width, callback) {
   test.off = 0
   test.on = 0
@@ -12626,27 +12621,15 @@ function formatBlob(blob, width, callback) {
   reader.onloadend = function() {
     base64data = reader.result
     let binary = ''
-    let max = 3000;
-    for (let i = 3000; i <max + width; i++) {
+    for (let i = 3000; i <3000 + width; i++) {
       console.log();
       const ascii = base64data.charCodeAt(i)
-
-      if (ascii == 47 || ascii == 65) {
-        max ++
-      } else {
-        //console.log(ascii);
         if(ascii % 2 == 0) {
           binary += '1'
-          test.on ++
         } else {
           binary += '0'
-          test.off ++
         }
-      }
     }
-    //console.log(test.on / (test.off + test.on));
-    // test.binary.push(binary)
-    // console.log(test.binary);
     callback(binary)
   }
 }
@@ -12684,7 +12667,7 @@ const $ = require('jquery')
 const getAudio = require('./getAudio.js')
 const formatBlob = require('./formatBlob.js')
 
-let myEca = new eca(30, {width: 81, seed: '1'})
+let myEca = new eca(90, {width: 81, seed: '1'})
 let audio
 
 genEca(40)
@@ -12692,7 +12675,6 @@ getAudio((data) => {
   audio = data
   reset()
 })
-$('button').on('click', reset)
 //generate an eca and add it to the dom
 function genEca(times, callback = () => {}) {
   for (let i = 0; i < times; i++) {
@@ -12718,7 +12700,6 @@ function reset() {
   const times = parseInt($('#times').val())
 
   formatBlob(audio, width, (data) => {
-    $('body').append(`<p>${data}</p>`)
     myEca = new eca(rule, {
       width: width,
       seed: data

@@ -3,7 +3,7 @@ const $ = require('jquery')
 const getAudio = require('./getAudio.js')
 const formatBlob = require('./formatBlob.js')
 
-let myEca = new eca(30, {width: 81, seed: '1'})
+let myEca = new eca(90, {width: 81, seed: '1'})
 let audio
 
 genEca(40)
@@ -11,7 +11,6 @@ getAudio((data) => {
   audio = data
   reset()
 })
-$('button').on('click', reset)
 //generate an eca and add it to the dom
 function genEca(times, callback = () => {}) {
   for (let i = 0; i < times; i++) {
