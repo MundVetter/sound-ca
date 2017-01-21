@@ -4,6 +4,8 @@
   "description": "create art from noise with cellular automata",
   "main": "index.js",
   "scripts": {
+    "watch": "watchify scripts/main.js -o scripts/bundle.js",
+    "dev": "http-server -c-1",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mund",

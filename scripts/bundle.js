@@ -12613,19 +12613,40 @@ if (typeof define === 'function' && define.amd) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],5:[function(require,module,exports){
+const test = {
+  off: 0,
+  on: 0
+}
+
 function formatBlob(blob, width, callback) {
+  test.off = 0
+  test.on = 0
   let reader = new window.FileReader()
   reader.readAsDataURL(blob)
   reader.onloadend = function() {
     base64data = reader.result
     let binary = ''
-    for (let i = 3000; i <3000 + width; i++) {
-      if (base64data.charCodeAt(i) % 2 == 0) {
-        binary += '1'
+    let max = 3000;
+    for (let i = 3000; i <max + width; i++) {
+      console.log();
+      const ascii = base64data.charCodeAt(i)
+
+      if (ascii == 47 || ascii == 65) {
+        max ++
       } else {
-        binary += '0'
+        //console.log(ascii);
+        if(ascii % 2 == 0) {
+          binary += '1'
+          test.on ++
+        } else {
+          binary += '0'
+          test.off ++
+        }
       }
     }
+    //console.log(test.on / (test.off + test.on));
+    // test.binary.push(binary)
+    // console.log(test.binary);
     callback(binary)
   }
 }
@@ -12638,10 +12659,7 @@ const MediaStreamRecorder = require('msr')
 let first = true
 
 function getAudio(update) {
-  let mediaConstraints = {
-    audio: true
-  }
-  navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError)
+  navigator.getUserMedia({audio: true}, onMediaSuccess, onMediaError)
   function onMediaSuccess(stream) {
       const mediaRecorder = new MediaStreamRecorder(stream)
       mediaRecorder.mimeType = 'audio/wav'
@@ -12658,7 +12676,6 @@ function getAudio(update) {
       console.error('media error', e)
   }
 }
-
 module.exports = getAudio
 
 },{"msr":4}],7:[function(require,module,exports){
@@ -12676,7 +12693,7 @@ getAudio((data) => {
   reset()
 })
 $('button').on('click', reset)
-
+//generate an eca and add it to the dom
 function genEca(times, callback = () => {}) {
   for (let i = 0; i < times; i++) {
     myEca.genLattice()
@@ -12686,6 +12703,7 @@ function genEca(times, callback = () => {}) {
     addLattice(myEca.lattices[i])
   }
 }
+//add a lattice to the dom
 function addLattice(lattice) {
   $('.container').append('<div class="lattice"></div>')
   for (const cell of lattice) {
@@ -12693,12 +12711,14 @@ function addLattice(lattice) {
     $('.lattice').last().append(`<div class="cell ${value}"></div>`)
   }
 }
+//remove current eca from the dom and add a new one to the dom
 function reset() {
   const width = parseInt($('#width').val())
   const rule = parseInt($('#rule').val())
   const times = parseInt($('#times').val())
 
   formatBlob(audio, width, (data) => {
+    $('body').append(`<p>${data}</p>`)
     myEca = new eca(rule, {
       width: width,
       seed: data

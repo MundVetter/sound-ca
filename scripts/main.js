@@ -37,6 +37,7 @@ function reset() {
   const times = parseInt($('#times').val())
 
   formatBlob(audio, width, (data) => {
+    $('body').append(`<p>${data}</p>`)
     myEca = new eca(rule, {
       width: width,
       seed: data
