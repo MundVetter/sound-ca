@@ -5,7 +5,6 @@ function formatBlob(blob, width, callback) {
     base64data = reader.result
     let binary = ''
     for (let i = 3000; i <3000 + width; i++) {
-      console.log();
       const ascii = base64data.charCodeAt(i)
         if(ascii % 2 == 0) {
           binary += '1'

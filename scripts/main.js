@@ -8,8 +8,7 @@ let audio
 
 genEca(40)
 getAudio((data) => {
-  audio = data
-  reset()
+  reset(data)
 })
 //generate an eca and add it to the dom
 function genEca(times, callback = () => {}) {
@@ -30,7 +29,7 @@ function addLattice(lattice) {
   }
 }
 //remove current eca from the dom and add a new one to the dom
-function reset() {
+function reset(audio) {
   const width = parseInt($('#width').val())
   const rule = parseInt($('#rule').val())
   const times = parseInt($('#times').val())
