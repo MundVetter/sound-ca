@@ -12614,8 +12614,6 @@ if (typeof define === 'function' && define.amd) {
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],5:[function(require,module,exports){
 function formatBlob(blob, width, callback) {
-  test.off = 0
-  test.on = 0
   let reader = new window.FileReader()
   reader.readAsDataURL(blob)
   reader.onloadend = function() {

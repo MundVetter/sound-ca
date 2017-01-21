@@ -1,6 +1,4 @@
 function formatBlob(blob, width, callback) {
-  test.off = 0
-  test.on = 0
   let reader = new window.FileReader()
   reader.readAsDataURL(blob)
   reader.onloadend = function() {
